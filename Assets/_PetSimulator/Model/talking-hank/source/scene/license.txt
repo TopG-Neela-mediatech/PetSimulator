@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hank (My Talking Hank: Islands)
+* source:	https://sketchfab.com/3d-models/hank-my-talking-hank-islands-eb01805810494c879f2fbd907ed556fd
+* author:	random guyz (https://sketchfab.com/Randomized_guy_.who)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hank (My Talking Hank: Islands)" (https://sketchfab.com/3d-models/hank-my-talking-hank-islands-eb01805810494c879f2fbd907ed556fd) by random guyz (https://sketchfab.com/Randomized_guy_.who) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
