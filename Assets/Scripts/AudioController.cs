@@ -8,6 +8,23 @@ enum PlayerState
     Talking
 }
 
+public static class GameConstants
+{
+    public const string PlayerTag = "Player";
+    public const string GameControllerTag = "AudioController";
+    public const string MecanimTalk = "Talk";
+    public const string MecanimListen = "Listen";
+    public const string MecanimIdle = "Idle";
+    public const string MicrophoneDeviceName = null;
+
+    public const int IdleRecordingLength = 1;
+    public const int RecordingLength = 10; // Increased to capture more speech
+    public const int RecordingFrequency = 48000;
+
+    public const int SampleDataLength = 1024;
+    public const float SoundThreshold = 0.025f;
+}
+
 [RequireComponent(typeof(AudioSource))]
 public class AudioController : MonoBehaviour
 {
@@ -23,39 +40,36 @@ public class AudioController : MonoBehaviour
         _clipSampleData = new float[GameConstants.SampleDataLength];
         Idle();
 
-        // Debug microphone info
-        string micName = "";
         foreach (var device in Microphone.devices)
         {
-            micName = device;
-            Debug.Log("Mic: " + micName);
+            Debug.Log("Mic: " + device);
         }
-        Microphone.GetDeviceCaps(micName, out int min, out int max);
-        Debug.Log($"Mic Frequency Range: {min} - {max}");
     }
 
     void Update()
     {
         if (_playerState == PlayerState.Idle && IsVolumeAboveThreshold())
         {
-            SwitchState(); // To Listening
+            SwitchState();
         }
     }
 
     private bool IsVolumeAboveThreshold()
     {
-        if (_audioSource.clip == null) return false;
+        if (_audioSource.clip == null || _audioSource.clip.loadState != AudioDataLoadState.Loaded) return false;
 
-        _audioSource.clip.GetData(_clipSampleData, _audioSource.timeSamples);
-        float clipLoudness = 0f;
+        int position = _audioSource.timeSamples;
+        int offset = Mathf.Clamp(position - _clipSampleData.Length, 0, _audioSource.clip.samples - _clipSampleData.Length);
+
+        _audioSource.clip.GetData(_clipSampleData, offset);
+
+        float loudness = 0f;
         foreach (var sample in _clipSampleData)
-        {
-            clipLoudness += Mathf.Abs(sample);
-        }
-        clipLoudness /= GameConstants.SampleDataLength;
+            loudness += Mathf.Abs(sample);
+        loudness /= _clipSampleData.Length;
 
-        Debug.Log("Clip Loudness: " + clipLoudness);
-        return clipLoudness > GameConstants.SoundThreshold;
+        Debug.Log("Clip Loudness: " + loudness);
+        return loudness > GameConstants.SoundThreshold;
     }
 
     private void SwitchState()
@@ -66,12 +80,10 @@ public class AudioController : MonoBehaviour
                 _playerState = PlayerState.Listening;
                 Listen();
                 break;
-
             case PlayerState.Listening:
                 _playerState = PlayerState.Talking;
                 Talk();
                 break;
-
             case PlayerState.Talking:
                 _playerState = PlayerState.Idle;
                 Idle();
@@ -81,56 +93,38 @@ public class AudioController : MonoBehaviour
 
     private void Idle()
     {
-        if (_playerAnimator != null)
+        if (_audioSource.clip != null)
         {
-            //_playerAnimator.SetTrigger(GameConstants.MecanimIdle);
-
-            if (_audioSource.clip != null)
-            {
-                _audioSource.Stop();
-                _audioSource.clip = null;
-            }
-
-            // Record loop to detect speaking
-            _audioSource.clip = Microphone.Start(GameConstants.MicrophoneDeviceName, true,
-                                                 GameConstants.IdleRecordingLength, GameConstants.RecordingFrequency);
-            Debug.Log("Idle: Recording loop started.");
+            _audioSource.Stop();
+            _audioSource.clip = null;
         }
+
+        _audioSource.clip = Microphone.Start(GameConstants.MicrophoneDeviceName, true,
+                                             GameConstants.IdleRecordingLength, GameConstants.RecordingFrequency);
+        Debug.Log("Idle: Recording loop started.");
     }
 
     private void Listen()
     {
-        if (_playerAnimator != null)
-        {
-            //_playerAnimator.SetTrigger(GameConstants.MecanimListen);
+        _audioSource.clip = Microphone.Start(GameConstants.MicrophoneDeviceName, false,
+                                             GameConstants.RecordingLength, GameConstants.RecordingFrequency);
 
-            // Record fixed length audio
-            _audioSource.clip = Microphone.Start(GameConstants.MicrophoneDeviceName, false,
-                                                 GameConstants.RecordingLength, GameConstants.RecordingFrequency);
-
-            StartCoroutine(CheckForSilenceAndStop());
-            Debug.Log("Listening...");
-        }
+        StartCoroutine(CheckForSilenceAndStop());
+        Debug.Log("Listening...");
     }
 
     private void Talk()
     {
-        if (_playerAnimator != null)
+        Microphone.End(GameConstants.MicrophoneDeviceName);
+
+        if (_audioSource.clip != null)
         {
-            //_playerAnimator.SetTrigger(GameConstants.MecanimTalk);
+            AudioClip trimmedClip = TrimSilenceFromEnd(_audioSource.clip, GameConstants.SoundThreshold);
+            _audioSource.clip = trimmedClip;
+            _audioSource.Play();
 
-            Microphone.End(GameConstants.MicrophoneDeviceName);
-
-            if (_audioSource.clip != null)
-            {
-                // Trim trailing silence before playback
-                AudioClip trimmedClip = TrimSilenceFromEnd(_audioSource.clip, GameConstants.SoundThreshold);
-                _audioSource.clip = trimmedClip;
-                _audioSource.Play();
-
-                Debug.Log("Talking...");
-                ScheduleStateSwitch(trimmedClip.length); // Go back to Idle after playback
-            }
+            Debug.Log("Talking...");
+            ScheduleStateSwitch(trimmedClip.length);
         }
     }
 
@@ -140,9 +134,6 @@ public class AudioController : MonoBehaviour
         Invoke(nameof(SwitchState), delay);
     }
 
-    /// <summary>
-    /// Checks during Listening if a long silence is heard, and transitions to Talking early.
-    /// </summary>
     private IEnumerator CheckForSilenceAndStop()
     {
         float silenceTimer = 0f;
@@ -151,9 +142,8 @@ public class AudioController : MonoBehaviour
 
         while (_playerState == PlayerState.Listening && Microphone.IsRecording(GameConstants.MicrophoneDeviceName))
         {
-            int micPosition = Microphone.GetPosition(GameConstants.MicrophoneDeviceName);
-            int offset = micPosition - _clipSampleData.Length;
-            if (offset < 0) offset = 0;
+            int micPos = Microphone.GetPosition(GameConstants.MicrophoneDeviceName);
+            int offset = Mathf.Clamp(micPos - _clipSampleData.Length, 0, _audioSource.clip.samples - _clipSampleData.Length);
 
             _audioSource.clip.GetData(_clipSampleData, offset);
 
@@ -168,37 +158,33 @@ public class AudioController : MonoBehaviour
                 if (silenceTimer >= maxSilenceDuration)
                 {
                     Debug.Log("Silence detected — ending early.");
-                    SwitchState(); // Jump to Talking
+                    SwitchState();
                     yield break;
                 }
             }
             else
             {
-                silenceTimer = 0f; // Reset timer if user is speaking
+                silenceTimer = 0f;
             }
 
             yield return new WaitForSeconds(checkInterval);
         }
 
-        // Fallback in case silence wasn’t long enough
         SwitchState();
     }
 
-    /// <summary>
-    /// Trims trailing silence from an audio clip.
-    /// </summary>
     private AudioClip TrimSilenceFromEnd(AudioClip clip, float threshold)
     {
         float[] data = new float[clip.samples * clip.channels];
         clip.GetData(data, 0);
 
-        int lastSampleIndex = data.Length - 1;
-        while (lastSampleIndex > 0 && Mathf.Abs(data[lastSampleIndex]) < threshold)
+        int lastIndex = data.Length - 1;
+        while (lastIndex > 0 && Mathf.Abs(data[lastIndex]) < threshold)
         {
-            lastSampleIndex--;
+            lastIndex--;
         }
 
-        int newLength = lastSampleIndex + 1;
+        int newLength = lastIndex + 1;
         if (newLength <= 0)
         {
             Debug.LogWarning("Trimmed clip is silent.");
@@ -208,8 +194,7 @@ public class AudioController : MonoBehaviour
         float[] trimmedData = new float[newLength];
         System.Array.Copy(data, trimmedData, newLength);
 
-        AudioClip newClip = AudioClip.Create("TrimmedClip", newLength / clip.channels,
-                                             clip.channels, clip.frequency, false);
+        AudioClip newClip = AudioClip.Create("TrimmedClip", newLength / clip.channels, clip.channels, clip.frequency, false);
         newClip.SetData(trimmedData, 0);
 
         return newClip;

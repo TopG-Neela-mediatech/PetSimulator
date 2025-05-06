@@ -13,9 +13,7 @@ public class MainCharacterController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
 
-    // Animator animator; // Optional, for animation
-
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
@@ -28,7 +26,7 @@ public class MainCharacterController : MonoBehaviour
         // animator = GetComponent<Animator>(); // Optional
     }
 
-    void Update()
+    private void Update()
     {
         // Movement using joystick
         float horizontal = m_joystick.Horizontal;
@@ -38,19 +36,4 @@ public class MainCharacterController : MonoBehaviour
         pos.x += horizontal * moveSpeed * Time.deltaTime;
         transform.position = pos;
     }
-
-    // Public method for UI button to call
-    public void Jump()
-    {
-        if (isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            // Optional animation
-            // animator.SetTrigger("Jump");
-
-            isGrounded = false;
-        }
-    }
-
 }
