@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-// Non - persisten Generic Singleton
+// Non - persistent Generic Singleton
 public class GenericSingleton<T> : MonoBehaviour where T : GenericSingleton<T>
 {
     private static T _instance;

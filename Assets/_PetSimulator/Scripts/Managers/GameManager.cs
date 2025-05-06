@@ -13,7 +13,7 @@ namespace TMKOC.PetSimulator
             // Spawn and initialize player
             // Get Status values from player model
         
-
+        // On Status Change - 
 
 
         // Player Spawner Service -> MVC 
