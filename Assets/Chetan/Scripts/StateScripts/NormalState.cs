@@ -6,9 +6,10 @@ namespace TMKOC.PetSimulator
 {
     public class NormalState : IState
     {
-        //private playerController playerController
+        private PlayerController playerController;
+        public NormalState(PlayerController playerController) { this.playerController = playerController; }
 
-        
+
         public void OnStateEnter()
         {
             throw new System.NotImplementedException();
