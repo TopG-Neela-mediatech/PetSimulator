@@ -68,7 +68,6 @@ public class AudioController : MonoBehaviour
             loudness += Mathf.Abs(sample);
         loudness /= _clipSampleData.Length;
 
-        Debug.Log("Clip Loudness: " + loudness);
         return loudness > GameConstants.SoundThreshold;
     }
 

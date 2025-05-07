@@ -33,15 +33,26 @@ public class SpawnBubbles : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                float size = UnityEngine.Random.Range(0.02f, 0.3f);
-                Vector3 localPos = parentTransform.InverseTransformPoint(hit.point);
+                Debug.Log("Hit: " + hit.collider.name);
 
-                bubbles.Add(new Bubble
+                if (hit.collider.name == "Teeth.001")
                 {
-                    localPosition = localPos,
-                    scale = size,
-                    isPopped = false
-                });
+                    float size = UnityEngine.Random.Range(0.05f, 0.15f);
+
+                    //// Add jitter and some depth based on surface normal
+                    //Vector3 offset = hit.normal * UnityEngine.Random.Range(-0.03f, 0.05f);  // depth
+                    //Vector3 jitter = UnityEngine.Random.insideUnitSphere * 0.01f;          // fuzziness
+
+                    Vector3 finalPos = hit.point ;
+                    Vector3 localPos = parentTransform.InverseTransformPoint(finalPos);
+
+                    bubbles.Add(new Bubble
+                    {
+                        localPosition = localPos,
+                        scale = size * .25f,
+                        isPopped = false
+                    });
+                }
             }
         }
 

@@ -10,6 +10,7 @@ public class TeethBrushPainter : MonoBehaviour
     public float brushSize = 0.05f; // Important: not too small!
     [SerializeField] private float cleanSpeed;
 
+    public ParticleSystem ps;
 
     [Header("Foam")]
     [SerializeField] private RenderTexture foamMask;
@@ -42,6 +43,13 @@ public class TeethBrushPainter : MonoBehaviour
             Ray ray = mainCam.ScreenPointToRay(screenPos);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                var worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+
+                ps.transform.position = worldPos;
+                if (!ps.isPlaying)
+                {
+                    ps.Play();
+                }
                 Vector2 uv = hit.textureCoord;
                 PaintAtUV(uv);
                 Debug.Log($"Painting at UV: {uv}");
