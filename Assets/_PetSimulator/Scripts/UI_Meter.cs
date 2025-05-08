@@ -1,3 +1,4 @@
+using TMKOC.PetSimulator;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,20 +9,21 @@ public class UI_Meter : MonoBehaviour
     [SerializeField] private Image cooldown;
     [SerializeField] private TextMeshProUGUI m_percent;
 
-    private PetStatusManager m_petStatusManager; // <-- NEW
+
+    private GameManager m_GameManager;
 
     private void Start()
     {
-        m_petStatusManager = PetStatusManager.Instance;
         if (m_percent == null)
         {
             Debug.LogError("Reference Missing for percentage text");
         }
+
+        m_GameManager = GameManager.Instance;
     }
 
     private void Update()
     {
-        if (m_petStatusManager == null) return;
 
         float currentMeterValue = GetMeterValue();
         cooldown.fillAmount = currentMeterValue / 100f; // Assuming 0-100 range
@@ -38,13 +40,13 @@ public class UI_Meter : MonoBehaviour
         switch (meterType)
         {
             case MeterType.Sleep:
-                return m_petStatusManager.sleepMeter;
+                return m_GameManager.PlayerView.PlayerController.SleepMeter;
             case MeterType.Hygiene:
-                return m_petStatusManager.hygieneMeter;
+                return m_GameManager.PlayerView.PlayerController.HygieneMeter;
             case MeterType.Hunger:
-                return m_petStatusManager.hungerMeter;
+                return m_GameManager.PlayerView.PlayerController.HungerMeter;
             case MeterType.Happiness:
-                return m_petStatusManager.happinessMeter;
+                return m_GameManager.PlayerView.PlayerController.HappinessMeter;
             default:
                 return 0f;
         }

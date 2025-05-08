@@ -1,26 +1,31 @@
 
-public class PlayerModel
+using UnityEngine;
+
+namespace TMKOC.PetSimulator
 {
-    public float RestedValue;
-    public float HygieneValue;
-    public float HungerValue;
-    public float HappinessValue;
-
-
-    public PlayerModel(PlayerData playerData)
+    public class PlayerModel : ScriptableObject
     {
-        RestedValue = playerData.HowRested;
-        HygieneValue = playerData.HowHygienic;
-        HungerValue = playerData.HowHungry;
-        HappinessValue = playerData.HowHappy;
-    }
-}
+        public float RestedValue;
+        public float HygieneValue;
+        public float HungerValue;
+        public float HappinessValue;
 
-[System.Serializable] 
-public class PlayerData
-{
-    public float HowRested;
-    public float HowHygienic;
-    public float HowHungry;
-    public float HowHappy;
+
+        public PlayerModel(PlayerData playerData)
+        {
+            RestedValue = playerData.HowRested;
+            HygieneValue = playerData.HowHygienic;
+            HungerValue = playerData.HowHungry;
+            HappinessValue = playerData.HowHappy;
+        }
+    }
+
+    [System.Serializable]
+    public class PlayerData
+    {
+        public float HowRested;
+        public float HowHygienic;
+        public float HowHungry;
+        public float HowHappy;
+    }
 }

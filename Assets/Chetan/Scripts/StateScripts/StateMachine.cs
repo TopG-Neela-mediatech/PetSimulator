@@ -39,13 +39,16 @@ namespace TMKOC.PetSimulator
             state.OnStateEnter();           
             stateChanged?.Invoke(state);
         }      
-        public void TransitionTo(IState nextState)
+        public void TransitionTo(PetState petState)
         {
             CurrentState.OnStateExit();
-            CurrentState = nextState;
-            nextState.OnStateEnter();            
-            stateChanged?.Invoke(nextState);
-        }        
+
+            SelectState(petState);
+
+            CurrentState.OnStateEnter();            
+            stateChanged?.Invoke(CurrentState);
+        }
+       
         public void Update()
         {
             if (CurrentState != null)
@@ -53,6 +56,45 @@ namespace TMKOC.PetSimulator
                 CurrentState.Update();
             }
         }
+
+        public void SelectState(PetState petState)
+        {
+            switch (petState)
+            {
+                case PetState.Normal:
+                    {
+                        CurrentState = normalState;
+                        break;
+                    }
+                case PetState.Sleepy:
+                    {
+                        CurrentState = unrestedState;
+                        break;
+                    }
+                case PetState.Dirty:
+                    {
+                        CurrentState = uncleanState;
+                        break;
+                    }
+                case PetState.Hungry:
+                    {
+                        CurrentState = hungryState;
+                        break;
+                    }
+
+                case PetState.Bored:
+                    {
+                        CurrentState = unrestedState;
+                        break;
+                    }
+                case PetState.Critical:
+                    {
+                        CurrentState = criticalState;
+                        break;
+                    }
+            }
+        }
+
     }
 }
 

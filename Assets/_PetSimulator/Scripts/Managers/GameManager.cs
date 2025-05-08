@@ -4,7 +4,7 @@ namespace TMKOC.PetSimulator
 {
     public class GameManager : GenericSingleton<GameManager>
     {
-
+        /*
         // Game Loop
 
         // On Game Start - trigger point invoked at start of the game 
@@ -19,5 +19,15 @@ namespace TMKOC.PetSimulator
         // Player Spawner Service -> MVC 
 
         // Pet Status Manager - decrement values of player model and get the values for displaying using UI_Meter 
+
+        */
+
+        [SerializeField] private PlayerView m_playerView;
+
+        public PlayerView PlayerView
+        {
+            get { return m_playerView; }
+
+        }
     }
 }

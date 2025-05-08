@@ -7,7 +7,8 @@ public enum PetMood
     Sleepy,
     Dirty,
     Hungry,
-    Bored
+    Bored,
+    Critical // or 
 }
 
 public enum MeterType
@@ -25,7 +26,7 @@ public class PetStatusManager : GenericSingleton<PetStatusManager>
     public float hungerMeter = 100f;
     public float happinessMeter = 100f;
 
-    public float meterDecreaseRate = 1f; // per minute
+    [SerializeField] private float meterDecreaseRate = 1f; // per minute
 
     [SerializeField] private float m_meterRefreshTimer = 1f;
 
