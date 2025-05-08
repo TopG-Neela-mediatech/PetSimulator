@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubbleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  bubbleMaterial: {fileID: 2100000, guid: 92488bb4024565e4f8c6d9a4d6fb6a63, type: 2}
+  bubbleMaterial: {fileID: 2100000, guid: 152f2990ba2e4a04eba2ea3e3d1b8349, type: 2}
   parentTransform: {fileID: 543450652749919002}
   extraBubbleCount: 2
   offsetRadius: 0.0025
@@ -2633,7 +2633,7 @@ PrefabInstance:
     - target: {fileID: 3881087803549984437, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984439, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
