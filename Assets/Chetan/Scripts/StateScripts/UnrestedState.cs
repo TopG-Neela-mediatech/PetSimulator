@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace TMKOC.PetSimulator
 {
@@ -6,18 +8,18 @@ namespace TMKOC.PetSimulator
         private PlayerController playerController;
         public UnrestedState(PlayerController playerController) { this.playerController = playerController; }
 
-
         public void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Entering Unrested State");
+            playerController.PlayerView.Animator.SetTrigger("Sleepy");
         }
         public void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Unrested State");
         }
         public void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

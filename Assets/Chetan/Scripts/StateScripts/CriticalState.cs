@@ -9,18 +9,20 @@ namespace TMKOC.PetSimulator
         private PlayerController playerController;
         public CriticalState(PlayerController playerController) { this.playerController = playerController; }
 
-        
+
         public void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Entering Critical State");
+            playerController.PlayerView.Animator.SetTrigger("Critical");
         }
         public void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Critical State");
         }
         public void Update()
         {
-            throw new System.NotImplementedException();
+
         }
+
     }
 }

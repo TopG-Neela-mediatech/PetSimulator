@@ -24,7 +24,6 @@ public class UI_Meter : MonoBehaviour
 
     private void Update()
     {
-
         float currentMeterValue = GetMeterValue();
         cooldown.fillAmount = currentMeterValue / 100f; // Assuming 0-100 range
         m_percent.SetText(currentMeterValue.ToString("F2") + "%");

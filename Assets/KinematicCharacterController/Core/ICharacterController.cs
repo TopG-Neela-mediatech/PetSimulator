@@ -31,15 +31,15 @@ namespace KinematicCharacterController
         /// </summary>
         bool IsColliderValidForCollisions(Collider coll);
         /// <summary>
-        /// This is called when the motor's ground probing detects a ground hit
+        /// This is called when the motor's ground probing detects a ground m_hit
         /// </summary>
         void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport);
         /// <summary>
-        /// This is called when the motor's movement logic detects a hit
+        /// This is called when the motor's movement logic detects a m_hit
         /// </summary>
         void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport);
         /// <summary>
-        /// This is called after every move hit, to give you an opportunity to modify the HitStabilityReport to your liking
+        /// This is called after every move m_hit, to give you an opportunity to modify the HitStabilityReport to your liking
         /// </summary>
         void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport);
         /// <summary>

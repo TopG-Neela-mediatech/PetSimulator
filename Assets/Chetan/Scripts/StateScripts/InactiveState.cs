@@ -12,15 +12,16 @@ namespace TMKOC.PetSimulator
 
         public void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Entering Inactive State");
+            playerController.PlayerView.Animator.SetTrigger("Inactive");
         }
         public void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Inactive State");
         }
         public void Update()
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

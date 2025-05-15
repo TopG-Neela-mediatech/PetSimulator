@@ -44,17 +44,17 @@ namespace KinematicCharacterController.Walkthrough.PlayerCameraCharacterSetup
 
         public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
-            // This is called when the motor's ground probing detects a ground hit
+            // This is called when the motor's ground probing detects a ground m_hit
         }
 
         public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
-            // This is called when the motor's movement logic detects a hit
+            // This is called when the motor's movement logic detects a m_hit
         }
 
         public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
         {
-            // This is called after every hit detected in the motor, to give you a chance to modify the HitStabilityReport any way you want
+            // This is called after every m_hit detected in the motor, to give you a chance to modify the HitStabilityReport any way you want
         }
 
         public void PostGroundingUpdate(float deltaTime)
@@ -64,7 +64,7 @@ namespace KinematicCharacterController.Walkthrough.PlayerCameraCharacterSetup
 
         public void OnDiscreteCollisionDetected(Collider hitCollider)
         {
-            // This is called by the motor when it is detecting a collision that did not result from a "movement hit".
+            // This is called by the motor when it is detecting a collision that did not result from a "movement m_hit".
         }
     }
 }

@@ -52,11 +52,11 @@ public class TeethBrushPainter : MonoBehaviour
                 }
                 Vector2 uv = hit.textureCoord;
                 PaintAtUV(uv);
-                Debug.Log($"Painting at UV: {uv}");
+                //Debug.Log($"Painting at UV: {uv}");
             }
             else
             {
-                Debug.Log("No collider hit!");
+                Debug.Log("No collider m_hit!");
             }
         }
     }
@@ -86,7 +86,7 @@ public class TeethBrushPainter : MonoBehaviour
         GL.PopMatrix();
         Graphics.SetRenderTarget(null);
 
-        Debug.Log($"[Painted] UV: {uv} Size: {brushSize}");
+        //Debug.Log($"[Painted] UV: {uv} Size: {brushSize}");
 
         PaintToMask(foamMask, foamMaterial, uv, foamStrength);
     }

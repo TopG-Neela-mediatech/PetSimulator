@@ -99,7 +99,7 @@ public class PetStatusManager : GenericSingleton<PetStatusManager>
                 animator.SetTrigger("Hungry");
                 break;
             case PetMood.Bored:
-                animator.SetTrigger("Bored");
+                animator.SetTrigger("Inactive");
                 break;
         }
     }

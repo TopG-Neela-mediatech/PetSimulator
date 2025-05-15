@@ -40,7 +40,7 @@ public class SpawnBubbles : MonoBehaviour
                     float size = UnityEngine.Random.Range(0.05f, 0.15f);
 
                     //// Add jitter and some depth based on surface normal
-                    //Vector3 offset = hit.normal * UnityEngine.Random.Range(-0.03f, 0.05f);  // depth
+                    //Vector3 offset = m_hit.normal * UnityEngine.Random.Range(-0.03f, 0.05f);  // depth
                     //Vector3 jitter = UnityEngine.Random.insideUnitSphere * 0.01f;          // fuzziness
 
                     Vector3 finalPos = hit.point ;

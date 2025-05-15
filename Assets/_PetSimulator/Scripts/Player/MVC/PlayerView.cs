@@ -1,31 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMKOC.PetSimulator;
+using TMPro;
 using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField] private float meterDecreaseRate = 1f; // per minute
+    [Header("Drain Rates (per minute)")]
+    [SerializeField] float sleepDecreaseRate = 1f;
+    [SerializeField] float hungerDecreaseRate = 1.2f;
+    [SerializeField] float happinessDecreaseRate = 0.8f;
 
-    [SerializeField] private float m_meterRefreshTimer = 1f;
+    [Header("Hygiene Sub-Rates")]
+    [SerializeField] float bathDecreaseRate = 0.5f;
+    [SerializeField] float pottyDecreaseRate = 0.7f;
+    [SerializeField] float brushDecreaseRate = 0.3f;
 
-    [SerializeField] private Animator m_animator;
+    [Header("Meter Refresh Interval (seconds)")]
+    [SerializeField] float meterRefreshInterval = 1f;
 
-    public PlayerController PlayerController { get; set; }
+    [SerializeField] Animator m_animator;
+    [SerializeField] TextMeshProUGUI m_currentState;
 
-    public Animator Animator { get { return m_animator; } }
+    public PlayerController PlayerController { get; private set; }
+    public Animator Animator => m_animator;
 
-    private void Start()
+    void Start()
     {
         if (m_animator == null)
-        {
-            m_animator = GetComponent<Animator>();
-        }
+            m_animator = GetComponentInChildren<Animator>();
 
-        PlayerController = new PlayerController(this);
-
-        StartCoroutine(PlayerController.DecreaseMetersOverTime(meterDecreaseRate, m_meterRefreshTimer));
+        // pass all your inspectable values into the controller
+        PlayerController = new PlayerController(
+            this,
+            sleepDecreaseRate,
+            hungerDecreaseRate,
+            happinessDecreaseRate,
+            bathDecreaseRate,
+            pottyDecreaseRate,
+            brushDecreaseRate,
+            meterRefreshInterval
+        );
     }
 
+    void Update()
+    {
+        // now just a plain Update() call
+        PlayerController.Update();
+    }
 
+    // existing UI callbacks…
+     
+    public void TakeBath() => PlayerController.WashPet();
+    public void DoToilet() => PlayerController.DoToiletPet();
+    public void BrushTeeth() => PlayerController.BrushPetTeeth();
+    
+    public void FeedPet(float v) => PlayerController.FeedPet(v);
+    public void RestPet() => PlayerController.PetRested();
+    public void PlayWithPet() => PlayerController.PlayWithPet();
+    public void ChangeState(string s) => m_currentState.SetText(s);
 }

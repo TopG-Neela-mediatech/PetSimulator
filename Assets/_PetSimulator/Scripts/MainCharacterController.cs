@@ -23,7 +23,6 @@ public class MainCharacterController : MonoBehaviour
             Debug.LogError("Variable Joystick reference is missing!");
         }
 
-        // animator = GetComponent<Animator>(); // Optional
     }
 
     private void Update()

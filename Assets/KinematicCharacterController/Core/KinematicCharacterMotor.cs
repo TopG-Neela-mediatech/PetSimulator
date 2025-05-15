@@ -114,7 +114,7 @@ namespace KinematicCharacterController
     }
 
     /// <summary>
-    /// Contains all the information from a hit stability evaluation
+    /// Contains all the information from a m_hit stability evaluation
     /// </summary>
     public struct HitStabilityReport
     {
@@ -138,7 +138,7 @@ namespace KinematicCharacterController
     }
 
     /// <summary>
-    /// Contains the information of hit rigidbodies during the movement phase, so they can be processed afterwards
+    /// Contains the information of m_hit rigidbodies during the movement phase, so they can be processed afterwards
     /// </summary>
     public struct RigidbodyProjectionHit
     {
@@ -1102,7 +1102,7 @@ namespace KinematicCharacterController
                                     Vector3 resolutionMovement = resolutionDirection * (resolutionDistance + CollisionOffset);
                                     _transientPosition += resolutionMovement;
 
-                                    // If interactiveRigidbody, register as rigidbody hit for velocity
+                                    // If interactiveRigidbody, register as rigidbody m_hit for velocity
                                     if (InteractiveRigidbodyHandling)
                                     {
                                         Rigidbody probedRigidbody = GetInteractiveRigidbody(_internalProbedColliders[i]);
@@ -1281,7 +1281,7 @@ namespace KinematicCharacterController
                         atRotation, // rotation
                         groundSweepDirection, // direction
                         groundProbeDistanceRemaining, // distance
-                        out groundSweepHit)) // hit
+                        out groundSweepHit)) // m_hit
                 {
                     Vector3 targetPosition = groundSweepPosition + (groundSweepDirection * groundSweepHit.distance);
                     HitStabilityReport groundHitStabilityReport = new HitStabilityReport();
@@ -1475,7 +1475,7 @@ namespace KinematicCharacterController
                         _transientRotation, // rotation
                         remainingMovementDirection, // direction
                         remainingMovementMagnitude + CollisionOffset, // distance
-                        out RaycastHit closestSweepHit, // closest hit
+                        out RaycastHit closestSweepHit, // closest m_hit
                         _internalCharacterHits) // all hits
                     > 0)
                 {
@@ -1494,7 +1494,7 @@ namespace KinematicCharacterController
                     tmpMovedPosition += sweepMovement;
                     remainingMovementMagnitude -= sweepMovement.magnitude;
 
-                    // Evaluate if hit is stable
+                    // Evaluate if m_hit is stable
                     HitStabilityReport moveHitStabilityReport = new HitStabilityReport();
                     EvaluateHitStability(closestSweepHitCollider, closestSweepHitNormal, closestSweepHitPoint, tmpMovedPosition, _transientRotation, transientVelocity, ref moveHitStabilityReport);
 
@@ -1515,12 +1515,12 @@ namespace KinematicCharacterController
                                                 _transientRotation, // rotation
                                                 -_characterUp, // direction
                                                 MaxStepHeight, // distance
-                                                out RaycastHit closestStepHit, // closest hit
+                                                out RaycastHit closestStepHit, // closest m_hit
                                                 _internalCharacterHits,
                                                 0f,
                                                 true); // all hits 
 
-                            // Check for hit corresponding to stepped collider
+                            // Check for m_hit corresponding to stepped collider
                             for (int i = 0; i < nbStepHits; i++)
                             {
                                 if (_internalCharacterHits[i].collider == moveHitStabilityReport.SteppedCollider)
@@ -1544,7 +1544,7 @@ namespace KinematicCharacterController
                     {
                         Vector3 obstructionNormal = GetObstructionNormal(closestSweepHitNormal, moveHitStabilityReport.IsStable);
 
-                        // Movement hit callback
+                        // Movement m_hit callback
                         CharacterController.OnMovementHit(closestSweepHitCollider, closestSweepHitNormal, closestSweepHitPoint, ref moveHitStabilityReport);
 
                         // Handle remembering rigidbody hits
@@ -1580,7 +1580,7 @@ namespace KinematicCharacterController
                         previousObstructionNormal = obstructionNormal;
                     }
                 }
-                // If we hit nothing...
+                // If we m_hit nothing...
                 else
                 {
                     hitSomethingThisSweepIteration = false;
@@ -1615,7 +1615,7 @@ namespace KinematicCharacterController
         /// </summary>
         private Vector3 GetObstructionNormal(Vector3 hitNormal, bool stableOnHit)
         {
-            // Find hit/obstruction/offset normal
+            // Find m_hit/obstruction/offset normal
             Vector3 obstructionNormal = hitNormal;
             if (GroundingStatus.IsStableOnGround && !MustUnground() && !stableOnHit)
             {
@@ -1633,7 +1633,7 @@ namespace KinematicCharacterController
         }
 
         /// <summary>
-        /// Remembers a rigidbody hit for processing later
+        /// Remembers a rigidbody m_hit for processing later
         /// </summary>
         private void StoreRigidbodyHit(Rigidbody hitRigidbody, Vector3 hitVelocity, Vector3 hitPoint, Vector3 obstructionNormal, HitStabilityReport hitStabilityReport)
         {
@@ -1660,7 +1660,7 @@ namespace KinematicCharacterController
         }
 
         /// <summary>
-        /// Processes movement projection upon detecting a hit
+        /// Processes movement projection upon detecting a m_hit
         /// </summary>
         private void InternalHandleVelocityProjection(bool stableOnHit, Vector3 hitNormal, Vector3 obstructionNormal, Vector3 originalDirection,
             ref MovementSweepState sweepState, bool previousHitIsStable, Vector3 previousVelocity, Vector3 previousObstructionNormal,
@@ -1825,7 +1825,7 @@ namespace KinematicCharacterController
         }
 
         /// <summary>
-        /// Allows you to override the way hit rigidbodies are pushed / interacted with. 
+        /// Allows you to override the way m_hit rigidbodies are pushed / interacted with. 
         /// ProcessedVelocity is what must be modified if this interaction affects the character's velocity.
         /// </summary>
         public virtual void HandleSimulatedRigidbodyInteraction(ref Vector3 processedVelocity, RigidbodyProjectionHit hit, float deltaTime)
@@ -1845,7 +1845,7 @@ namespace KinematicCharacterController
                 {
                     if (_internalRigidbodyProjectionHits[i].Rigidbody != _attachedRigidbody)
                     {
-                        // Remember we hit this rigidbody
+                        // Remember we m_hit this rigidbody
                         _rigidbodiesPushedThisMove.Add(bodyHit.Rigidbody);
 
                         float characterMass = SimulatedCharacterMass;
@@ -2016,7 +2016,7 @@ namespace KinematicCharacterController
         }
 
         /// <summary>
-        /// Determines if the motor is considered stable on a given hit
+        /// Determines if the motor is considered stable on a given m_hit
         /// </summary>
         public void EvaluateHitStability(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, Vector3 withCharacterVelocity, ref HitStabilityReport stabilityReport)
         {
@@ -2120,7 +2120,7 @@ namespace KinematicCharacterController
             Vector3 horizontalCharToHitDirection = Vector3.ProjectOnPlane((hitPoint - characterPosition), characterUp).normalized;
             Vector3 stepCheckStartPos = (hitPoint - verticalCharToHit) + (characterUp * MaxStepHeight) + (horizontalCharToHitDirection * CollisionOffset * 3f); 
 
-            // Do outer step check with capsule cast on hit point
+            // Do outer step check with capsule cast on m_hit point
             nbStepHits = CharacterCollisionsSweep(
                             stepCheckStartPos,
                             characterRotation,
@@ -2131,7 +2131,7 @@ namespace KinematicCharacterController
                             0f,
                             true);
 
-            // Check for overlaps and obstructions at the hit position
+            // Check for overlaps and obstructions at the m_hit position
             if (CheckStepValidity(nbStepHits, characterPosition, characterRotation, innerHitDirection, stepCheckStartPos, out tmpCollider))
             {
                 stabilityReport.ValidStepDetected = true;
@@ -2140,7 +2140,7 @@ namespace KinematicCharacterController
 
             if (StepHandling == StepHandlingMethod.Extra && !stabilityReport.ValidStepDetected)
             {
-                // Do min reach step check with capsule cast on hit point
+                // Do min reach step check with capsule cast on m_hit point
                 stepCheckStartPos = characterPosition + (characterUp * MaxStepHeight) + (-innerHitDirection * MinRequiredStepDepth);
                 nbStepHits = CharacterCollisionsSweep(
                                 stepCheckStartPos,
@@ -2152,7 +2152,7 @@ namespace KinematicCharacterController
                                 0f,
                                 true);
 
-                // Check for overlaps and obstructions at the hit position
+                // Check for overlaps and obstructions at the m_hit position
                 if (CheckStepValidity(nbStepHits, characterPosition, characterRotation, innerHitDirection, stepCheckStartPos, out tmpCollider))
                 {
                     stabilityReport.ValidStepDetected = true;
@@ -2166,12 +2166,12 @@ namespace KinematicCharacterController
             hitCollider = null;
             Vector3 characterUp = characterRotation * Vector3.up;
 
-            // Find the farthest valid hit for stepping
+            // Find the farthest valid m_hit for stepping
             bool foundValidStepPosition = false;
 
             while (nbStepHits > 0 && !foundValidStepPosition)
             {
-                // Get farthest hit among the remaining hits
+                // Get farthest m_hit among the remaining hits
                 RaycastHit farthestHit = new RaycastHit();
                 float farthestDistance = 0f;
                 int farthestIndex = 0;
@@ -2191,7 +2191,7 @@ namespace KinematicCharacterController
                 int atStepOverlaps = CharacterCollisionsOverlap(characterPositionAtHit, characterRotation, _internalProbedColliders);
                 if (atStepOverlaps <= 0)
                 {
-                    // Check for outer hit slope normal stability at the step position
+                    // Check for outer m_hit slope normal stability at the step position
                     if (CharacterCollisionsRaycast(
                             farthestHit.point + (characterUp * SecondaryProbesVertical) + (-innerHitDirection * SecondaryProbesHorizontal),
                             -characterUp,
@@ -2208,7 +2208,7 @@ namespace KinematicCharacterController
                                                 characterRotation, // rotation
                                                 characterUp, // direction
                                                 MaxStepHeight - farthestHit.distance, // distance
-                                                out RaycastHit tmpUpObstructionHit, // closest hit
+                                                out RaycastHit tmpUpObstructionHit, // closest m_hit
                                                 _internalCharacterHits) // all hits
                                     <= 0)
                             {
@@ -2268,7 +2268,7 @@ namespace KinematicCharacterController
                     }
                 }
 
-                // Discard hit if not valid step
+                // Discard m_hit if not valid step
                 if (!foundValidStepPosition)
                 {
                     nbStepHits--;
@@ -2516,7 +2516,7 @@ namespace KinematicCharacterController
                 }
                 else
                 {
-                    // Remember closest valid hit
+                    // Remember closest valid m_hit
                     if (hitDistance < closestDistance)
                     {
                         closestHit = hit;
@@ -2574,7 +2574,7 @@ namespace KinematicCharacterController
                 }
                 else
                 {
-                    // Remember closest valid hit
+                    // Remember closest valid m_hit
                     float hitDistance = hit.distance;
                     if (hitDistance < closestDistance)
                     {
@@ -2614,7 +2614,7 @@ namespace KinematicCharacterController
                 RaycastHit hit = _internalCharacterHits[i];
                 float hitDistance = hit.distance;
 
-                // Find the closest valid hit
+                // Find the closest valid m_hit
                 if (hitDistance > 0f && CheckIfColliderValidForCollisions(hit.collider))
                 {
                     if (hitDistance < closestDistance)
@@ -2674,7 +2674,7 @@ namespace KinematicCharacterController
                 }
                 else
                 {
-                    // Remember closest valid hit
+                    // Remember closest valid m_hit
                     if (hitDistance < closestDistance)
                     {
                         closestHit = hit;

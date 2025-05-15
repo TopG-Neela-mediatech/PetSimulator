@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,15 +11,17 @@ namespace TMKOC.PetSimulator
 
         public void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Entering Unclean State");
+            playerController.PlayerView.Animator.SetTrigger("Unclean");
         }
         public void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Exiting Unclean State");
+
         }
         public void Update()
         {
-            throw new System.NotImplementedException();
         }
+
     }
 }
