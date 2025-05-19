@@ -1,0 +1,1 @@
+public enum FacialPresetEnum{None = 0,Default,EyeClose,MouthOpen,Sleep,Tired,Happy,Smile,Flush,Excited,Fresh,Nervous,Frustrated,Despair,Sad,Cry,Angry,Shout,Confounded,Unpleasant,Grimace,A,I,U,E,O,};

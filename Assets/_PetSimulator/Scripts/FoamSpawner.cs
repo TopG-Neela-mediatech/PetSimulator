@@ -9,9 +9,6 @@ namespace TMKOC.PetSimulator
         Teeth,
         Body,
     }
-
-    public class FoamSpawner : MonoBehaviour
-    {
         [System.Serializable]
         public class FoamBubble
         {
@@ -23,6 +20,12 @@ namespace TMKOC.PetSimulator
             public float age;
             public float lifetime;
         }
+
+    public class FoamSpawner : MonoBehaviour
+    {
+        [Header("Camera reference")]
+        [SerializeField] private Camera mainCam;
+
 
         [Header("Foam Settings")]
         public Material bubbleMaterial;
@@ -67,7 +70,7 @@ namespace TMKOC.PetSimulator
         {
             if (Input.GetMouseButton(0))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out m_hit))
                 {
                     if (m_hit.collider.TryGetComponent(out FoamSurfaceType foamSurfaceType) &&

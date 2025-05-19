@@ -1,6 +1,8 @@
 using TMKOC.PetSimulator;
 using TMPro;
+using DG.Tweening;
 using UnityEngine;
+using System;
 
 public class PlayerView : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class PlayerView : MonoBehaviour
 
     [SerializeField] Animator m_animator;
     [SerializeField] TextMeshProUGUI m_currentState;
+
+    [Header("Brush wala Stuff")]
+    [SerializeField] private GameObject m_brushingStuff;
 
     public PlayerController PlayerController { get; private set; }
     public Animator Animator => m_animator;
@@ -48,11 +53,30 @@ public class PlayerView : MonoBehaviour
     }
 
     // existing UI callbacks…
-     
+
+    public static event Action OnReadyToBrush;
+
     public void TakeBath() => PlayerController.WashPet();
     public void DoToilet() => PlayerController.DoToiletPet();
-    public void BrushTeeth() => PlayerController.BrushPetTeeth();
-    
+    public void BrushTeeth()
+    {
+        // Get transform point for brushing from game manager
+        Transform tfPoint = GameManager.Instance.GetTransformPoint(TFLocation.Brush);
+
+        if (tfPoint == null)
+        {
+            Debug.LogError("Cannot find transform point for brushing");
+        }
+
+        transform.DORotate(tfPoint.rotation.eulerAngles, 1.75f, RotateMode.Fast);
+        transform.DOMove(tfPoint.position, 2f).OnComplete(() =>
+        {
+            //PlayerController.BrushPetTeeth();
+            m_brushingStuff.SetActive(true);
+            OnReadyToBrush?.Invoke();   
+        });
+    }
+
     public void FeedPet(float v) => PlayerController.FeedPet(v);
     public void RestPet() => PlayerController.PetRested();
     public void PlayWithPet() => PlayerController.PlayWithPet();

@@ -1,0 +1,227 @@
+fileFormatVersion: 2
+guid: bc8ee4c078ec13c45af9f1bcf8680e00
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Bip001
+    100004: Bip001 Head
+    100006: Bip001 Neck
+    100008: Bip001 Pelvis
+    100010: Bip001 Spine
+    100012: Bip001 Spine1
+    100014: Bip001 Spine2
+    100016: BN_CheekLower_L
+    100018: BN_CheekLower_R
+    100020: BN_CheekUpper_L
+    100022: BN_CheekUpper_R
+    100024: BN_Ear_L
+    100026: BN_Ear_R
+    100028: BN_Eye_L
+    100030: BN_Eye_R
+    100032: BN_Eyebow_L
+    100034: BN_Eyebow_L_01
+    100036: BN_Eyebow_L_02
+    100038: BN_Eyebow_L_03
+    100040: BN_Eyebow_R
+    100042: BN_Eyebow_R_01
+    100044: BN_Eyebow_R_02
+    100046: BN_Eyebow_R_03
+    100048: BN_EyelidLower_L
+    100050: BN_EyelidLower_R
+    100052: BN_EyelidUpper_L_01
+    100054: BN_EyelidUpper_L_02
+    100056: BN_EyelidUpper_R_01
+    100058: BN_EyelidUpper_R_02
+    100060: BN_Eyeunder_L
+    100062: BN_Eyeunder_R
+    100064: BN_jaw_F_01
+    100066: BN_jaw_F_end
+    100068: BN_Jawline_L
+    100070: BN_Jawline_R
+    100072: BN_MouthLower_F
+    100074: BN_MouthLower_FL
+    100076: BN_MouthLower_FR
+    100078: BN_MouthUpper_F
+    100080: BN_MouthUpper_FL
+    100082: BN_MouthUpper_FR
+    100084: BN_MouthUpper_L
+    100086: BN_MouthUpper_R
+    100088: BN_Nose_ALL
+    100090: BN_Nose_L
+    100092: BN_Nose_R
+    100094: BN_Toungue_01
+    100096: BN_Toungue_02
+    100098: BN_Toungue_03
+    100100: BN_UpperMouth
+    100102: head
+    100104: Root
+    400000: //RootNode
+    400002: Bip001
+    400004: Bip001 Head
+    400006: Bip001 Neck
+    400008: Bip001 Pelvis
+    400010: Bip001 Spine
+    400012: Bip001 Spine1
+    400014: Bip001 Spine2
+    400016: BN_CheekLower_L
+    400018: BN_CheekLower_R
+    400020: BN_CheekUpper_L
+    400022: BN_CheekUpper_R
+    400024: BN_Ear_L
+    400026: BN_Ear_R
+    400028: BN_Eye_L
+    400030: BN_Eye_R
+    400032: BN_Eyebow_L
+    400034: BN_Eyebow_L_01
+    400036: BN_Eyebow_L_02
+    400038: BN_Eyebow_L_03
+    400040: BN_Eyebow_R
+    400042: BN_Eyebow_R_01
+    400044: BN_Eyebow_R_02
+    400046: BN_Eyebow_R_03
+    400048: BN_EyelidLower_L
+    400050: BN_EyelidLower_R
+    400052: BN_EyelidUpper_L_01
+    400054: BN_EyelidUpper_L_02
+    400056: BN_EyelidUpper_R_01
+    400058: BN_EyelidUpper_R_02
+    400060: BN_Eyeunder_L
+    400062: BN_Eyeunder_R
+    400064: BN_jaw_F_01
+    400066: BN_jaw_F_end
+    400068: BN_Jawline_L
+    400070: BN_Jawline_R
+    400072: BN_MouthLower_F
+    400074: BN_MouthLower_FL
+    400076: BN_MouthLower_FR
+    400078: BN_MouthUpper_F
+    400080: BN_MouthUpper_FL
+    400082: BN_MouthUpper_FR
+    400084: BN_MouthUpper_L
+    400086: BN_MouthUpper_R
+    400088: BN_Nose_ALL
+    400090: BN_Nose_L
+    400092: BN_Nose_R
+    400094: BN_Toungue_01
+    400096: BN_Toungue_02
+    400098: BN_Toungue_03
+    400100: BN_UpperMouth
+    400102: head
+    400104: Root
+    7400000: BILLY_FACIAL_11F_Tired
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: BILLY_FACIAL_11F_Tired
+      takeName: Take 001
+      firstFrame: 22
+      lastFrame: 23
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

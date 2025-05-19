@@ -17,7 +17,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 20e951f0a04bc8b4c8bca18599362610, type: 3}
+        m_Texture: {fileID: 2800000, guid: f9a01fd9a405ed24089bdd7bcc83323b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -77,6 +77,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
     - _BrushUV: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6747089191001258420
