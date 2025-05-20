@@ -10,17 +10,25 @@ namespace TMKOC.PetSimulator
         private void OnEnable()
         {
             PlayerView.OnReadyToBrush += SwitchToBrush;
+            PlayerView.OnBrushingCompleted += SwitchToCameraFace;
         }
 
         private void OnDisable()
         {
             PlayerView.OnReadyToBrush -= SwitchToBrush;
+            PlayerView.OnBrushingCompleted -= SwitchToCameraFace;
         }
 
         private void SwitchToBrush()
         {
             m_VCamMain.SetActive(false);
             m_VCamBrush.SetActive(true);
+        }
+
+        private void SwitchToCameraFace()
+        {
+            m_VCamMain.SetActive(true);
+            m_VCamBrush.SetActive(false);
         }
     }
 }

@@ -24,9 +24,13 @@ public class PlayerView : MonoBehaviour
 
     [Header("Brush wala Stuff")]
     [SerializeField] private GameObject m_brushingStuff;
+    [SerializeField] private TeethBrushPainter m_brushPainter;
+    [SerializeField] private FoamSpawner m_foamPainter;
 
     public PlayerController PlayerController { get; private set; }
     public Animator Animator => m_animator;
+
+    public float BrushMeter;
 
     void Start()
     {
@@ -48,32 +52,65 @@ public class PlayerView : MonoBehaviour
 
     void Update()
     {
+        BrushMeter = PlayerController.BrushMeter;
         // now just a plain Update() call
         PlayerController.Update();
     }
 
-    // existing UI callbacks…
+    // Events
 
     public static event Action OnReadyToBrush;
+    public static event Action OnBrushingCompleted;
 
     public void TakeBath() => PlayerController.WashPet();
     public void DoToilet() => PlayerController.DoToiletPet();
+
+
+    // Initialize brush sequence 
     public void BrushTeeth()
     {
-        // Get transform point for brushing from game manager
-        Transform tfPoint = GameManager.Instance.GetTransformPoint(TFLocation.Brush);
+        if (PlayerController.BrushMeter <= 50f)
+        {
+            m_brushPainter.ResetRT();
+            m_brushPainter.StopBrushing = false;
+            m_foamPainter.StopBrushing = false;
 
-        if (tfPoint == null)
+            // Get transform point for brushing from game manager
+            Transform tfPoint = GameManager.Instance.GetTransformPoint(TFLocation.Brush);
+
+            if (tfPoint == null)
+            {
+                Debug.LogError("Cannot find transform point for brushing");
+            }
+
+            transform.DORotate(tfPoint.rotation.eulerAngles, 1.75f, RotateMode.Fast);
+            transform.DOMove(tfPoint.position, 2f).OnComplete(() =>
+            {
+                //PlayerController.BrushPetTeeth();
+                m_brushingStuff.SetActive(true);
+                OnReadyToBrush?.Invoke();
+            });
+        }
+    }
+
+    public void EndBrushing()
+    {
+        m_brushPainter.StopBrushing = true;
+        m_foamPainter.StopBrushing = true;
+
+        var originPoint = GameManager.Instance.GetTransformPoint(TFLocation.FacingCameraAfterBrushing);
+
+        if (originPoint == null)
         {
             Debug.LogError("Cannot find transform point for brushing");
         }
 
-        transform.DORotate(tfPoint.rotation.eulerAngles, 1.75f, RotateMode.Fast);
-        transform.DOMove(tfPoint.position, 2f).OnComplete(() =>
+        transform.DORotate(originPoint.rotation.eulerAngles, 1.75f, RotateMode.Fast).SetDelay(1f);
+
+        transform.DOMove(originPoint.position, 2f).SetDelay(1f).OnPlay(() =>
         {
-            //PlayerController.BrushPetTeeth();
-            m_brushingStuff.SetActive(true);
-            OnReadyToBrush?.Invoke();   
+            m_brushingStuff.SetActive(false);
+            OnBrushingCompleted?.Invoke();
         });
     }
 

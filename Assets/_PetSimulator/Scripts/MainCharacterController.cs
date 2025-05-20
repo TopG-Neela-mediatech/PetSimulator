@@ -37,14 +37,21 @@ namespace TMKOC.PetSimulator
             isDoingSomething = true;
         }
 
+        private void StartMovement()
+        {
+            isDoingSomething = false;
+        }
+
         private void OnEnable()
         {
             PlayerView.OnReadyToBrush += StopMovement;
+            PlayerView.OnBrushingCompleted += StartMovement;
         }
 
         private void OnDisable()
         {
             PlayerView.OnReadyToBrush -= StopMovement;
+            PlayerView.OnBrushingCompleted -= StartMovement;
         }
 
 

@@ -52,6 +52,8 @@ namespace TMKOC.PetSimulator
         private Vector3 lastPlacedPosition;
         private bool hasPlacedFirst = false;
 
+        public bool StopBrushing = false;
+
         void Start()
         {
             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -68,6 +70,9 @@ namespace TMKOC.PetSimulator
 
         void Update()
         {
+            if (StopBrushing) return;
+
+
             if (Input.GetMouseButton(0))
             {
                 Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);

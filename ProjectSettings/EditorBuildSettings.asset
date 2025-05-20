@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_PetSimulator/Scenes/Test_Sample.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/_PetSimulator/Scenes/TEST_ENV.unity
+    guid: d3e4934c61fcd664091ffda3396ee647
   m_configObjects: {}

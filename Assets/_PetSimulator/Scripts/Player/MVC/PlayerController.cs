@@ -26,9 +26,6 @@ namespace TMKOC.PetSimulator
         private float pottyDecreaseRate;
         private float brushDecreaseRate;
 
-        private float bathMeter = 100f;
-        private float bathroomMeter = 100f;
-        private float brushMeter = 100f;
 
         private float hygieneMeter = 100f;
 
@@ -39,6 +36,10 @@ namespace TMKOC.PetSimulator
         public float HygieneMeter { get { return hygieneMeter; } set { hygieneMeter = value; } }
         public float HungerMeter { get { return hungerMeter; } set { hungerMeter = value; } }
         public float HappinessMeter { get { return happinessMeter; } set { happinessMeter = value; } }
+
+        public float BathMeter { get; set; } = 100f;
+        public float BathroomMeter { get; set; } = 100f;
+        public float BrushMeter { get; set; } = 100f;
 
         public PlayerView PlayerView { get; set; }
 
@@ -73,11 +74,11 @@ namespace TMKOC.PetSimulator
             hungerMeter = Mathf.Max(0, hungerMeter - hungerDecreaseRate);
             happinessMeter = Mathf.Max(0, happinessMeter - happinessDecreaseRate);
 
-            bathMeter = Mathf.Max(0, bathMeter - bathDecreaseRate);
-            bathroomMeter = Mathf.Max(0, bathroomMeter - pottyDecreaseRate);
-            brushMeter = Mathf.Max(0, brushMeter - brushDecreaseRate);
+            BathMeter = Mathf.Max(0, BathMeter - bathDecreaseRate);
+            BathroomMeter = Mathf.Max(0, BathroomMeter - pottyDecreaseRate);
+            BrushMeter = Mathf.Max(0, BrushMeter - brushDecreaseRate);
 
-            hygieneMeter = (bathMeter + bathroomMeter + brushMeter) / 3f;
+            hygieneMeter = (BathMeter + BathroomMeter + BrushMeter) / 3f;
         }
 
         public void FeedPet(float foodAmount)
@@ -86,20 +87,31 @@ namespace TMKOC.PetSimulator
             if (hungerMeter > 100f) hungerMeter = 100f;
         }
 
-        public void BrushPetTeeth()
+        public void UpdateBrushMeterFromProgress(float brushProgress, float cleanThreshold = 0.5f)
         {
-            brushMeter = 100f;
-            hygieneMeter = (brushMeter + bathMeter + bathroomMeter) * 0.3f;
+            // Clamp brushProgress to not go below the clean threshold
+            brushProgress = Mathf.Clamp(brushProgress, cleanThreshold, 1f);
+
+            // Normalize between 0 (clean) and 1 (dirty)
+            float normalizedProgress = Mathf.InverseLerp(1f, cleanThreshold, brushProgress);
+
+            // Convert to meter value (0 to 100)
+            BrushMeter = normalizedProgress * 100f;
+
+            // Update hygieneMeter as average of 3 hygiene-related meters
+            hygieneMeter = (BrushMeter + BathMeter + BathroomMeter) / 3f;
         }
+
+
         public void WashPet()
         {
-            bathMeter = 100f;
-            hygieneMeter = (brushMeter + bathMeter + bathroomMeter) * 0.3f;
+            BathMeter = 100f;
+            hygieneMeter = (BrushMeter + BathMeter + BathroomMeter) * 0.3f;
         }
         public void DoToiletPet()
         {
-            bathroomMeter = 100f;
-            hygieneMeter = (brushMeter + bathMeter + bathroomMeter) * 0.3f;
+            BathroomMeter = 100f;
+            hygieneMeter = (BrushMeter + BathMeter + BathroomMeter) * 0.3f;
         }
 
         public void PlayWithPet()

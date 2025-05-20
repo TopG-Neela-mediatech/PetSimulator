@@ -1,2 +1,0 @@
-LastCheck = Dog Test file@Stop Walking.fbx 
-DoNotAsk = 1

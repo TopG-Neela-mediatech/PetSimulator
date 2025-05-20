@@ -15,11 +15,6 @@ namespace TMKOC.PetSimulator
 
         [SerializeField] private ParticleSystem ps;
 
-        [Header("Foam")]
-        [SerializeField] private RenderTexture foamMask;
-        [SerializeField] private Material foamMaterial;
-        [SerializeField] private float foamStrength = 0.08f;
-
         [Header("Debug")]
         [Range(0, 1)] public float brushProgress = 0f; // <- NEW: Clean progress shown in Inspector
 
@@ -27,11 +22,12 @@ namespace TMKOC.PetSimulator
         private float lastProgressUpdateTime = 0f;
         private const float progressUpdateInterval = 0.25f; // Update every 0.25 seconds
 
+        public bool StopBrushing { get; set; } = false;
+
         private void Start()
         {
             // Clear the mask to full black
-            ResetRT();
-            Debug.Log("Camera: " + mainCam.name);
+            //ResetRT();
 
             // Create tempTex for progress reading
             tempTex = new Texture2D(brushMask.width, brushMask.height, TextureFormat.RGBA32, false, true);
@@ -41,8 +37,7 @@ namespace TMKOC.PetSimulator
         {
             RenderTexture.active = brushMask;
             GL.Clear(true, true, Color.black);
-            //RenderTexture.active = foamMask;
-            GL.Clear(true, true, Color.black);
+            //GL.Clear(true, true, Color.black);
             RenderTexture.active = null;
 
             brushProgress = 0f; // Reset progress too
@@ -50,6 +45,9 @@ namespace TMKOC.PetSimulator
 
         private void Update()
         {
+            if (StopBrushing) return; 
+
+
             if (Input.GetMouseButton(0) || Input.touchCount > 0)
             {
                 Vector2 screenPos = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
@@ -84,6 +82,8 @@ namespace TMKOC.PetSimulator
             {
                 lastProgressUpdateTime = Time.time;
                 brushProgress = CalculateBrushProgress();
+
+                GameManager.Instance.UpdateBrushingProgress(brushProgress);
             }
         }
 
@@ -110,18 +110,14 @@ namespace TMKOC.PetSimulator
             GL.PopMatrix();
             Graphics.SetRenderTarget(null);
 
-            PaintToMask(foamMask, foamMaterial, uv, foamStrength);
+            PaintToMask(uv);
         }
 
-        void PaintToMask(RenderTexture target, Material mat, Vector2 uv, float strength)
+        void PaintToMask(Vector2 uv)
         {
-            mat.SetColor("_BaseColor", new Color(1f, 1f, 1f, strength));
-
-            Graphics.SetRenderTarget(target);
             GL.PushMatrix();
             GL.LoadOrtho();
 
-            mat.SetPass(0);
             GL.Begin(GL.QUADS);
 
             float halfSize = brushSize * 0.5f;
